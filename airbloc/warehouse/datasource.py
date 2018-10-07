@@ -1,4 +1,3 @@
-from airbloc.warehouse.uri import Uri
 
 
 class DataSource:
@@ -7,7 +6,7 @@ class DataSource:
     def name(self) -> str:
         raise NotImplemented
 
-    def create(self, payload: bytes) -> Uri:
+    def create(self, payload: bytes) -> str:
         raise NotImplemented
 
     def read(self, id: str) -> bytes:

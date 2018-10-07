@@ -19,11 +19,15 @@ class DataStore:
         if to is None:
             to = self.default
 
+        # TODO: batch support
         datasource = self._sources[to]
         if datasource is None:
             raise ValueError("No datasource {} has been registered.".format(to))
 
-        return datasource.create(data.payload)
+        data_id = datasource.create(data.marshal())
+        return Uri(protocol=to, path=data_id)
 
-    def get(self, id: str):
-        raise NotImplemented
+    def get(self, uri: Uri):
+        raw_data = self._sources[uri.protocol].read(uri.path)
+        return EncryptedData.unmarshal(raw_data)
+
